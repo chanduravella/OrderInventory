@@ -1,5 +1,7 @@
 package com.orderInventory.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +16,7 @@ public class Products {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
 	private String productName;
-	private double unitPrice;
+	private BigDecimal unitPrice;
 	private String colour;
 	private String brand;
 	private String size;

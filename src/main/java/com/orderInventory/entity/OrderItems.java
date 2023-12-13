@@ -1,12 +1,12 @@
 package com.orderInventory.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import lombok.Data;
 
 @Entity
@@ -22,7 +22,7 @@ public class OrderItems {
     @JoinColumn(name = "product_id")
     private Products productId;
 
-    private double unitPrice;
+    private BigDecimal unitPrice;
     private int quantity;
     
     @ManyToOne(cascade = CascadeType.ALL)

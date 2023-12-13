@@ -1,5 +1,6 @@
 package com.orderInventory.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +19,8 @@ public class Stores {
 	private String storeName;
 	private String webAddress;
 	private String physicalAddress;
-	private double latitude;
-	private double longitude;
+	private BigDecimal latitude;
+	private BigDecimal longitude;
 	private String logoMimeType;
 	private String logoFileName;
 	private String logoCharset;
