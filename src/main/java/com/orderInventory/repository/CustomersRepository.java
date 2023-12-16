@@ -16,7 +16,7 @@ public interface CustomersRepository extends JpaRepository<Customers, Integer>{
 	List<Customers> findByFullName(String name);
 	
 	@Query(nativeQuery = true,
-	           value = "SELECT shipment_status, COUNT(customer_id) as customerCount FROM shipments GROUP BY shipment_status")
+	           value = "SELECT shipment_status, COUNT(customer_id) as customersCount FROM shipments GROUP BY shipment_status")
 	
 	List<Object[]> getShipmentStatusWiseCustomerCount();
 

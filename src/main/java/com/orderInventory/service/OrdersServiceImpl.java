@@ -48,7 +48,7 @@ public class OrdersServiceImpl implements OrdersService{
 		
 		if (orders.isEmpty()) {
 			
-            throw new StoreNotFoundException("No orders found for store: " + store);
+            throw new StoreNotFoundException("No Store found with name: " + store);
         } 
 		else 
         {

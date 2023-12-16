@@ -8,7 +8,7 @@ public class ShipmentStatusCountDto {
 	private String shipmentStatus;
 	private long customersCount;
 	
-	 public ShipmentStatusCountDto(String shipmentStatus, Long shipmentCount) {
+	 public ShipmentStatusCountDto(String shipmentStatus, Long customersCount) {
 	        this.shipmentStatus = shipmentStatus;
 	        this.customersCount = customersCount;
 	    }
