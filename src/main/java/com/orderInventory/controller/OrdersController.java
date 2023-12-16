@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orderInventory.dto.OrderStatusCountDto;
+import com.orderInventory.dto.OrdersDto;
 import com.orderInventory.entity.Orders;
+import com.orderInventory.exception.StoreNotFoundException;
 import com.orderInventory.service.OrdersService;
 
 @RestController
@@ -21,6 +25,24 @@ public class OrdersController {
 		
 		 List<Orders> orders= ordersService.getAllOrders();
 		 return orders;
+	}
+	
+	@GetMapping("/api/v1/orders/status")
+	public List<OrderStatusCountDto> getOrderStatusCount(){
+		
+		List<OrderStatusCountDto> result = ordersService.getOrderStatusCount();
+		
+		return result;
+	}
+	
+	
+	@GetMapping("/api/v1/orders/{store}")
+	public List<OrdersDto> getOrdersByStoreName(@PathVariable String store) throws StoreNotFoundException{
+		
+		List<OrdersDto> ordersDto = ordersService.getOrdersByStoreName(store);
+		
+		return ordersDto;
+		
 	}
 
 }

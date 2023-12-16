@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
 import com.orderInventory.exception.CustomerNotFoundException;
 import com.orderInventory.service.CustomersService;
@@ -77,5 +77,16 @@ public class CustomersController {
 		return customers;
 		
 	}
+	
+	@GetMapping("/api/v1/customers/shipment/status")
+	
+	public List<ShipmentStatusCountDto> getShipmentStatusWiseCustomerCount(){
+		
+		List<ShipmentStatusCountDto> shipment = customersService.getShipmentStatusWiseCustomerCount();
+		
+		return shipment;
+	}
+	
+	
 
 }

@@ -1,9 +1,12 @@
 package com.orderInventory.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
 import com.orderInventory.exception.CustomerNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
@@ -93,6 +96,20 @@ public class CustomersServiceImpl implements CustomersService{
 			 return customers;
 		 }
 		
+	}
+	
+	
+
+	@Override
+	public List<ShipmentStatusCountDto> getShipmentStatusWiseCustomerCount() {
+		
+		 List<Object[]> result = customersRepository.getShipmentStatusWiseCustomerCount();
+	        
+		 List<ShipmentStatusCountDto> shipmentStatusCountList = result.stream()
+	                .map(objects -> new ShipmentStatusCountDto((String) objects[0], (Long) objects[1]))
+	                .collect(Collectors.toList());
+
+	        return shipmentStatusCountList;
 	}
 	
 	
