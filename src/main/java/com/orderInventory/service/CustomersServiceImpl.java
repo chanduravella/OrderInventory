@@ -27,21 +27,21 @@ public class CustomersServiceImpl implements CustomersService{
 	}
 
 	@Override
-	public String addNewCustomer(Customers customer) {
+	public Customers addNewCustomer(Customers customer) {
 		
-		customersRepository.save(customer);
+		Customers addCustomer = customersRepository.save(customer);
 				
-		return "Record Created Successfully";
+		return addCustomer;
 	}
 
 	@Override
-	public String updateCustomer(Customers customer) throws ResourceNotFoundException{
+	public Customers updateCustomer(Customers customer) throws ResourceNotFoundException{
 		
 		if (customersRepository.existsById(customer.getCustomerId())) {
 			
-			customersRepository.save(customer);
+			Customers updateCustomer = customersRepository.save(customer);
 			
-			return "Record Updated Succesfully";
+			return updateCustomer;
 			
 			 
 		}
@@ -57,9 +57,10 @@ public class CustomersServiceImpl implements CustomersService{
 		
 		if (customersRepository.existsById(customer.getCustomerId())) {
 			
-			customersRepository.delete(customer);
-			
-			return "Record Deleted Succesfully";
+		customersRepository.delete(customer);
+		
+		return "Record Deleted Succesfully";
+		
 		}
 		else {
 			throw new ResourceNotFoundException("No Customer Found with id: "+customer.getCustomerId());

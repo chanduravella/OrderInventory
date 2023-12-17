@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.orderInventory.entity.Customers;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -29,13 +30,13 @@ public class CustomerServiceMockitoTest {
 	// Initialization of mock objects
 	
 	@BeforeEach
-	void init() {
+	public void init() {
 		MockitoAnnotations.openMocks(this);
 	}
 	
 
 	@Test
-	void testGetAllEmployees() {
+	public void testGetAllEmployees() {
 		
 		List<Customers> customersLst = new ArrayList<>();
 		
@@ -55,5 +56,58 @@ public class CustomerServiceMockitoTest {
 		
 		assertEquals(2, customersList.size());
 	}
+	
+	
+	@Test
+	public void testAddCustomer() {
+		
+		Customers customer = new Customers();
+		
+		customer.setCustomerId(1);
+		customer.setEmailAddress("chandu@gmail.com");
+		customer.setFullName("chandu ravella");
+		
+		Mockito.when(customersServiceImpl.addNewCustomer(customer)).thenReturn(customer);
+		
+		Customers newCustomer = customersRepository.save(customer);
+		
+		assertEquals(customer,newCustomer);
+		
+	}
+	
+	
+	@Test
+	public void testUpdateCustomer() throws ResourceNotFoundException{
+		
+	    Customers existingCustomer = new Customers();
+	    existingCustomer.setCustomerId(1);
+	    existingCustomer.setEmailAddress("chandu@gmail.com");
+	    existingCustomer.setFullName("chandu ravella");
 
+	    Customers updatedCustomer = new Customers();
+	    updatedCustomer.setCustomerId(1);
+	    updatedCustomer.setEmailAddress("bruce@gmail.com");
+	    updatedCustomer.setFullName("bruce wayne");
+	    
+	    // if customer exists return updated customer else throw exception
+	    
+	    if (customersRepository.existsById(existingCustomer.getCustomerId())){
+	    	
+	    	Mockito.when(customersServiceImpl.updateCustomer(existingCustomer)).thenReturn(updatedCustomer);
+	    	
+	    	Customers resultCustomer = customersServiceImpl.updateCustomer(existingCustomer);
+
+	    	Mockito.verify(customersRepository, Mockito.times(1)).save(updatedCustomer);
+	    
+	    	assertEquals(updatedCustomer, resultCustomer);
+	    }
+	    else {
+	    	assertThrows(ResourceNotFoundException.class, () -> customersServiceImpl.updateCustomer(existingCustomer));
+	    }
+	    
+	}
+
+		
+		
 }
+

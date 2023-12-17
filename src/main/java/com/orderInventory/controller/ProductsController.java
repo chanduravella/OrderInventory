@@ -3,6 +3,8 @@ package com.orderInventory.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,20 +22,20 @@ public class ProductsController {
 	
 	
 	@GetMapping("/api/v1/products/fetchAll")
-	public List<Products> getAllProducts(){
+	public ResponseEntity<List<Products>> getAllProducts(){
 		
-		List<Products> products = productsService.getAllProducts();
+		List<Products> allProducts = productsService.getAllProducts();
 		
-		return products;		
+		return new ResponseEntity<List<Products>>(allProducts,HttpStatus.OK);		
 	}
 	
 	
 	@PostMapping("/api/v1/products/addProduct")
-	public Products addNewproduct(@RequestBody Products product) {
+	public ResponseEntity<String> addNewproduct(@RequestBody Products product) {
 		
-		Products addProduct = productsService.addNewProduct(product);
+		productsService.addNewProduct(product);
 		
-		return addProduct;
+		return new ResponseEntity<String>("Record Created Successfully",HttpStatus.CREATED);
 		
 	}
 	
@@ -41,11 +43,11 @@ public class ProductsController {
 	
 	@GetMapping("/api/v1/products/sort/byField")
 	
-	public List<Products> getSortedProductsByField(@RequestParam String field, @RequestParam(defaultValue = "asc")String sortBy){
+	public ResponseEntity<List<Products>> getSortedProductsByField(@RequestParam String field, @RequestParam(defaultValue = "asc")String sortBy){
 		
-		List<Products> products = productsService.getSortedProductsByField(field, sortBy);
+		List<Products> sortProductsByField = productsService.getSortedProductsByField(field, sortBy);
 		
-		return products;
+		return new ResponseEntity<List<Products>>(sortProductsByField,HttpStatus.OK);
 		
 	}
 

@@ -9,8 +9,8 @@ import com.orderInventory.exception.ResourceNotFoundException;
 public interface CustomersService {
 	
 	List<Customers> getAllCustomers();
-	String addNewCustomer(Customers customer);
-	String updateCustomer(Customers customer)throws ResourceNotFoundException;
+	Customers addNewCustomer(Customers customer);
+	Customers updateCustomer(Customers customer)throws ResourceNotFoundException;
 	String deleteCustomer(Customers customer)throws ResourceNotFoundException;
 	List<Customers> getCustomersByEmailAddress(String email) throws ResourceNotFoundException;
 	List<Customers> getCustomersByName(String name)throws ResourceNotFoundException;

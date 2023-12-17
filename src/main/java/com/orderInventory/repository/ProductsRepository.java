@@ -14,5 +14,7 @@ public interface ProductsRepository extends JpaRepository<Products,Integer> {
 	
 	@Query(nativeQuery = true, value="SELECT * from products ORDER BY :field :sortBy")
 	List<Products> findAllProductsByField(@Param("field")String field, @Param("sortBy")String sortBy);
+	
+	List<Products> findByProductId(int productId);
 
 }

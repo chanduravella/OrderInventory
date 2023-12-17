@@ -3,6 +3,8 @@ package com.orderInventory.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,27 +23,27 @@ public class OrdersController {
 	
 	@GetMapping("/api/v1/orders/getAllOrders")
 	
-	public List<Orders> getAllOrders(){
+	public ResponseEntity<List<Orders>> getAllOrders(){
 		
-		 List<Orders> orders= ordersService.getAllOrders();
-		 return orders;
+		 List<Orders> allOrders= ordersService.getAllOrders();
+		 return new ResponseEntity<List<Orders>>(allOrders,HttpStatus.OK);
 	}
 	
 	@GetMapping("/api/v1/orders/status")
-	public List<OrderStatusCountDto> getOrderStatusCount(){
+	public ResponseEntity<List<OrderStatusCountDto>> getOrderStatusCount(){
 		
-		List<OrderStatusCountDto> result = ordersService.getOrderStatusCount();
+		List<OrderStatusCountDto> orderStatusCount = ordersService.getOrderStatusCount();
 		
-		return result;
+		return new ResponseEntity<List<OrderStatusCountDto>>(orderStatusCount,HttpStatus.OK);
 	}
 	
 	
 	@GetMapping("/api/v1/orders/{store}")
-	public List<OrdersDto> getOrdersByStoreName(@PathVariable String store) throws ResourceNotFoundException{
+	public ResponseEntity<List<OrdersDto>> getOrdersByStoreName(@PathVariable String store) throws ResourceNotFoundException{
 		
-		List<OrdersDto> ordersDto = ordersService.getOrdersByStoreName(store);
+		List<OrdersDto> ordersByStoreName = ordersService.getOrdersByStoreName(store);
 		
-		return ordersDto;
+		return new ResponseEntity<List<OrdersDto>>(ordersByStoreName,HttpStatus.OK);
 		
 	}
 

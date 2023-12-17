@@ -9,5 +9,6 @@ public class OrdersDto {
 	private String orderStatus;
 	private String storeName;
 	private String webAddress;
+	
 
 }
