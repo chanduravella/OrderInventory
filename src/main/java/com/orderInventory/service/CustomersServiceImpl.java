@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
-import com.orderInventory.exception.CustomerNotFoundException;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
 
 
@@ -35,7 +35,7 @@ public class CustomersServiceImpl implements CustomersService{
 	}
 
 	@Override
-	public String updateCustomer(Customers customer) throws CustomerNotFoundException{
+	public String updateCustomer(Customers customer) throws ResourceNotFoundException{
 		
 		if (customersRepository.existsById(customer.getCustomerId())) {
 			
@@ -47,13 +47,13 @@ public class CustomersServiceImpl implements CustomersService{
 		}
 		else {
 		
-		throw new CustomerNotFoundException("No Customer found with id: "+customer.getCustomerId());
+		throw new ResourceNotFoundException("No Customer found with id: "+customer.getCustomerId());
 		}
 	}
 	
 	
 	@Override
-	public String deleteCustomer(Customers customer) throws CustomerNotFoundException {
+	public String deleteCustomer(Customers customer) throws ResourceNotFoundException {
 		
 		if (customersRepository.existsById(customer.getCustomerId())) {
 			
@@ -62,19 +62,19 @@ public class CustomersServiceImpl implements CustomersService{
 			return "Record Deleted Succesfully";
 		}
 		else {
-			throw new CustomerNotFoundException("No Customer Found with id: "+customer.getCustomerId());
+			throw new ResourceNotFoundException("No Customer Found with id: "+customer.getCustomerId());
 		}
 		
 	}
 	
 	
 	@Override
-	public List<Customers> getCustomersByEmailAddress(String email) throws CustomerNotFoundException{
+	public List<Customers> getCustomersByEmailAddress(String email) throws ResourceNotFoundException{
 		
 		 List<Customers> customers= customersRepository.findByEmailAddress(email);
 		 
 		 if (customers.isEmpty()) {
-			 throw new CustomerNotFoundException("No Customer Found with Email Address: "+email);
+			 throw new ResourceNotFoundException("No Customer Found with Email Address: "+email);
 		 }
 		 else {
 			 return customers;
@@ -85,12 +85,12 @@ public class CustomersServiceImpl implements CustomersService{
 	
 	@Override
 	
-	public List<Customers> getCustomersByName(String name) throws CustomerNotFoundException{
+	public List<Customers> getCustomersByName(String name) throws ResourceNotFoundException{
 		
 		 List<Customers> customers= customersRepository.findByFullName(name);
 		 
 		 if (customers.isEmpty()) {
-			 throw new CustomerNotFoundException("No Customer Found with Name: "+name);
+			 throw new ResourceNotFoundException("No Customer Found with Name: "+name);
 		 }
 		 else {
 			 return customers;

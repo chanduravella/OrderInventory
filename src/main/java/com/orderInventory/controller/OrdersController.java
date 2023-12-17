@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orderInventory.dto.OrderStatusCountDto;
 import com.orderInventory.dto.OrdersDto;
 import com.orderInventory.entity.Orders;
-import com.orderInventory.exception.StoreNotFoundException;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.service.OrdersService;
 
 @RestController
@@ -37,7 +37,7 @@ public class OrdersController {
 	
 	
 	@GetMapping("/api/v1/orders/{store}")
-	public List<OrdersDto> getOrdersByStoreName(@PathVariable String store) throws StoreNotFoundException{
+	public List<OrdersDto> getOrdersByStoreName(@PathVariable String store) throws ResourceNotFoundException{
 		
 		List<OrdersDto> ordersDto = ordersService.getOrdersByStoreName(store);
 		

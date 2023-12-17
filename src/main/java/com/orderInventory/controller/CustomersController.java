@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
-import com.orderInventory.exception.CustomerNotFoundException;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.service.CustomersService;
 
 @RestController
@@ -43,7 +43,7 @@ public class CustomersController {
 	
 	@PutMapping("/api/v1/customers/updateCustomer")
 	
-	public String updateCustomer(@RequestBody Customers customer) throws CustomerNotFoundException {
+	public String updateCustomer(@RequestBody Customers customer) throws ResourceNotFoundException {
 		
 		return customersService.updateCustomer(customer);
 		
@@ -51,7 +51,7 @@ public class CustomersController {
 	
 	@DeleteMapping("/api/v1/customers/deleteCustomers")
 	
-	public String deleteCustomer(Customers customer) throws CustomerNotFoundException {
+	public String deleteCustomer(Customers customer) throws ResourceNotFoundException {
 		
 		return customersService.deleteCustomer(customer);
 	}
@@ -59,7 +59,7 @@ public class CustomersController {
 	
 	@GetMapping("/api/v1/customers/{email}/byEmailAddress")
 	
-	public List<Customers> getCustomersByEmailAddress(@PathVariable String email) throws CustomerNotFoundException{
+	public List<Customers> getCustomersByEmailAddress(@PathVariable String email) throws ResourceNotFoundException{
 		
 		List<Customers> customers = customersService.getCustomersByEmailAddress(email);
 		
@@ -70,7 +70,7 @@ public class CustomersController {
 	
 	@GetMapping("/api/v1/customers/{name}/byFullName")
 	
-	public List<Customers> getCustomersByName(@PathVariable String name)throws CustomerNotFoundException{
+	public List<Customers> getCustomersByName(@PathVariable String name)throws ResourceNotFoundException{
 		
 		List<Customers> customers = customersService.getCustomersByName(name);
 		

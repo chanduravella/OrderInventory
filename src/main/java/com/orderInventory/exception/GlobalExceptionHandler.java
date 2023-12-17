@@ -6,15 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import com.orderInventory.entity.ErrorResponse;
 
 @ControllerAdvice
-public class CustomerExceptionHandler {
+public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(CustomerNotFoundException.class)
+@ExceptionHandler(ResourceNotFoundException.class)
 	
-	public ResponseEntity<ErrorResponse> handleException(CustomerNotFoundException exception) {
+	public ResponseEntity<ErrorResponse> handleException(ResourceNotFoundException exception) {
 		
 		ErrorResponse error = new ErrorResponse();
 		
@@ -24,5 +23,6 @@ public class CustomerExceptionHandler {
 		
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND); 
 	}
+
 
 }

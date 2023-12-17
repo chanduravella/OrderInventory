@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.orderInventory.dto.OrderStatusCountDto;
 import com.orderInventory.dto.OrdersDto;
-import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Orders;
-import com.orderInventory.exception.StoreNotFoundException;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.OrdersRepository;
 
 @Service
@@ -42,13 +41,13 @@ public class OrdersServiceImpl implements OrdersService{
 	
 	
 	@Override
-	public List<OrdersDto> getOrdersByStoreName(String store) throws StoreNotFoundException {
+	public List<OrdersDto> getOrdersByStoreName(String store) throws ResourceNotFoundException {
 		
 		List<Orders> orders= ordersRepository.findByStoreId_StoreName(store);
 		
 		if (orders.isEmpty()) {
 			
-            throw new StoreNotFoundException("No Store found with name: " + store);
+            throw new ResourceNotFoundException("No Store found with name: " + store);
         } 
 		else 
         {

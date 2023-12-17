@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
-import com.orderInventory.exception.CustomerNotFoundException;
+import com.orderInventory.exception.ResourceNotFoundException;
 
 public interface CustomersService {
 	
 	List<Customers> getAllCustomers();
 	String addNewCustomer(Customers customer);
-	String updateCustomer(Customers customer)throws CustomerNotFoundException;
-	String deleteCustomer(Customers customer)throws CustomerNotFoundException;
-	List<Customers> getCustomersByEmailAddress(String email) throws CustomerNotFoundException;
-	List<Customers> getCustomersByName(String name)throws CustomerNotFoundException;
+	String updateCustomer(Customers customer)throws ResourceNotFoundException;
+	String deleteCustomer(Customers customer)throws ResourceNotFoundException;
+	List<Customers> getCustomersByEmailAddress(String email) throws ResourceNotFoundException;
+	List<Customers> getCustomersByName(String name)throws ResourceNotFoundException;
 	
 	List<ShipmentStatusCountDto> getShipmentStatusWiseCustomerCount();
 
