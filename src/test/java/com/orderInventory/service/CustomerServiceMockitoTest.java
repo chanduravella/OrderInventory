@@ -28,15 +28,16 @@ public class CustomerServiceMockitoTest {
 	CustomersRepository customersRepository;
 
 	// Initialization of mock objects
-	
 	@BeforeEach
 	public void init() {
 		MockitoAnnotations.openMocks(this);
 	}
 	
+	
+	//test method to get all customers
 
 	@Test
-	public void testGetAllEmployees() {
+	public void testGetAllCustomers() {
 		
 		List<Customers> customersLst = new ArrayList<>();
 		
@@ -58,6 +59,8 @@ public class CustomerServiceMockitoTest {
 	}
 	
 	
+	//test method to add customer
+	
 	@Test
 	public void testAddCustomer() {
 		
@@ -75,6 +78,8 @@ public class CustomerServiceMockitoTest {
 		
 	}
 	
+	
+	// test method to update customer 
 	
 	@Test
 	public void testUpdateCustomer() throws ResourceNotFoundException{
@@ -106,8 +111,80 @@ public class CustomerServiceMockitoTest {
 	    }
 	    
 	}
-
+	
+	//test method to delete customer
+	
+	@Test
+	void testDeleteCustomer() throws ResourceNotFoundException {
 		
+		Customers customer = new Customers();
 		
+		customer.setCustomerId(1);
+		customer.setEmailAddress("chandu@gmail.com");
+		customer.setFullName("chandu ravella");
+		
+		if (customersRepository.existsById(customer.getCustomerId())) {
+			
+			Mockito.when(customersServiceImpl.deleteCustomer(customer)).thenReturn("Record Deleted Succesfully");
+			
+			customersRepository.delete(customer);
+			
+			Mockito.verify(customersRepository, Mockito.times(1)).delete(customer);
+			
+		}
+		else {
+			
+			assertThrows(ResourceNotFoundException.class, () -> customersServiceImpl.deleteCustomer(customer));
+			
+		}		
+	}
+	
+	//test method to get customer by email id
+	
+	@Test
+	void testGetCustomerByEmail() throws ResourceNotFoundException {
+		
+		String emailAddress = "ravella@gmail.com";
+		
+		List<Customers> customersList = new ArrayList();
+		
+		if (customersList.isEmpty()) {
+			
+			assertThrows(ResourceNotFoundException.class, () -> customersServiceImpl.getCustomersByEmailAddress(emailAddress));
+		} 
+		
+		else {
+			
+			Mockito.when(customersServiceImpl.getCustomersByEmailAddress(emailAddress)).thenReturn(customersList);
+			
+			List<Customers> result = customersRepository.findByEmailAddress(emailAddress);
+			
+			assertEquals(customersList,result);
+		}		
+	}
+	
+	//test method to get customer by name
+	
+	@Test
+	void testGetCustomerByName() throws ResourceNotFoundException {
+		
+		String fullName = "chandu ravella";
+		
+		List<Customers> customersList = new ArrayList<>();
+		
+		if (customersList.isEmpty()) {
+			
+			assertThrows(ResourceNotFoundException.class,()->customersServiceImpl.getCustomersByName(fullName));
+			
+		}
+		else {
+			
+			Mockito.when(customersServiceImpl.getCustomersByName(fullName)).thenReturn(customersList);
+			List<Customers> result = customersRepository.findByFullName(fullName);
+			
+			assertEquals(customersList,result);			
+		}		
+	}
+	
 }
 
