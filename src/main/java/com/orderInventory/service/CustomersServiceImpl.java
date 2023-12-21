@@ -1,13 +1,17 @@
 package com.orderInventory.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.orderInventory.dto.CustomerInputDto;
+import com.orderInventory.dto.CustomerOutputDto;
 import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
+import com.orderInventory.entity.Login;
 import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
 
@@ -19,11 +23,16 @@ public class CustomersServiceImpl implements CustomersService{
 	CustomersRepository customersRepository;
 
 	@Override
-	public List<Customers> getAllCustomers() {
+	public List<Customers> getAllCustomers() throws ResourceNotFoundException {
 		
 		List<Customers> customers= customersRepository.findAll();
 		
-		return customers;
+		if (customers.isEmpty()) {
+			throw new ResourceNotFoundException("No Customer Data Found");
+		}
+		else {
+			return customers;
+		}
 	}
 
 	@Override
@@ -102,15 +111,86 @@ public class CustomersServiceImpl implements CustomersService{
 	
 
 	@Override
-	public List<ShipmentStatusCountDto> getShipmentStatusWiseCustomerCount() {
+	public List<ShipmentStatusCountDto> getShipmentStatusWiseCustomerCount() throws ResourceNotFoundException {
 		
 		 List<Object[]> result = customersRepository.getShipmentStatusWiseCustomerCount();
-	        
+		 
+		 if (result.isEmpty()) {
+			 
+			 throw new ResourceNotFoundException("No Details Found");			 
+		 }
+		 else {
+			 
 		 List<ShipmentStatusCountDto> shipmentStatusCountList = result.stream()
 	                .map(objects -> new ShipmentStatusCountDto((String) objects[0], (Long) objects[1]))
 	                .collect(Collectors.toList());
 
 	        return shipmentStatusCountList;
+		 }
+	}
+
+	@Override
+	public CustomerOutputDto addCustomerDto(CustomerInputDto customerIputDto) {
+		
+		//create customer instance
+		
+		Customers customers = new Customers();
+		
+		customers.setEmailAddress(customerIputDto.getEmailAddress());
+		customers.setFullName(customerIputDto.getFullName());
+		
+		// create login instance
+		
+		Login login = new Login();
+		
+		login.setEmail(customerIputDto.getEmailAddress());
+		login.setPassword(customerIputDto.getPassword());
+		login.setCategory("customer");
+		login.setLogin(false);
+		
+		customers.setLogin(login);
+		
+		Customers newCustomer = customersRepository.save(customers);
+		
+		CustomerOutputDto customerOutputDto = new CustomerOutputDto();
+		
+		customerOutputDto.setEmailAddress(newCustomer.getEmailAddress());
+		customerOutputDto.setFullName(newCustomer.getFullName());
+		
+		return customerOutputDto;
+	}
+
+	@Override
+	public Customers updateCustomerDto(CustomerInputDto customerIputDto) throws ResourceNotFoundException {
+		
+		Optional<Customers> optionalList= customersRepository.findById(customerIputDto.getCustomerId());
+		
+		if (optionalList.isPresent()) {
+			
+			Customers customer = optionalList.get();
+			
+			customer.setCustomerId(customerIputDto.getCustomerId());
+			customer.setEmailAddress(customerIputDto.getEmailAddress());
+			customer.setFullName(customerIputDto.getFullName());
+			
+			Login login = new Login();
+			
+			login.setEmail(customerIputDto.getEmailAddress());
+			login.setPassword(customerIputDto.getPassword());
+			login.setCategory("customer");
+			
+			customer.setLogin(login);
+			
+			Customers updatedCustomer = customersRepository.save(customer);
+			
+			return updatedCustomer;			
+			
+		}
+		else {
+			
+			throw new ResourceNotFoundException("No Customer found with Id: "+customerIputDto.getCustomerId());
+		}
+
 	}
 	
 	

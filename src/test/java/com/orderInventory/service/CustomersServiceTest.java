@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.orderInventory.entity.Customers;
+import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
 
 @SpringBootTest
@@ -46,15 +47,23 @@ public class CustomersServiceTest {
 	
 	
 	@Test
-	public void getAllCustomersTest() {
+	public void getAllCustomersTest() throws ResourceNotFoundException {
 		
 		List<Customers> customersList = customersService.getAllCustomers();
+		
+		if (customersList.isEmpty()) {
+			
+			assertThrows(ResourceNotFoundException.class, ()->customersService.getAllCustomers());			
+		}
+		else {
 		
 		Customers customer = customersList.get(0); //	1	tammy.bryant@internalmail	Tammy Bryant
 		
 		assertEquals(1,customer.getCustomerId()); 
 		assertEquals("tammy.bryant@internalmail",customer.getEmailAddress());
 		assertEquals("Tammy Bryant",customer.getFullName());
+		
+		}
 		
 		
 	}

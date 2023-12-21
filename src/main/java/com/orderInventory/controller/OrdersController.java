@@ -30,7 +30,7 @@ public class OrdersController {
 	}
 	
 	@GetMapping("/api/v1/orders/status")
-	public ResponseEntity<List<OrderStatusCountDto>> getOrderStatusCount(){
+	public ResponseEntity<List<OrderStatusCountDto>> getOrderStatusCount() throws ResourceNotFoundException{
 		
 		List<OrderStatusCountDto> orderStatusCount = ordersService.getOrderStatusCount();
 		

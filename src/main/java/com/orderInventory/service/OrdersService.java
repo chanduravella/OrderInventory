@@ -10,7 +10,7 @@ import com.orderInventory.exception.ResourceNotFoundException;
 public interface OrdersService {
 	
 	List<Orders> getAllOrders();
-	List<OrderStatusCountDto> getOrderStatusCount();
+	List<OrderStatusCountDto> getOrderStatusCount() throws ResourceNotFoundException;
 	
 	List<OrdersDto> getOrdersByStoreName(String store) throws ResourceNotFoundException;
 

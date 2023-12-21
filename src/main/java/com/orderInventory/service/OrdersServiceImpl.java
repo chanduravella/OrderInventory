@@ -28,15 +28,20 @@ public class OrdersServiceImpl implements OrdersService{
 	
 
 	@Override
-	public List<OrderStatusCountDto> getOrderStatusCount() {
+	public List<OrderStatusCountDto> getOrderStatusCount() throws ResourceNotFoundException{
 		
 		List<Object[]> result= ordersRepository.getOrderStatusCount();
 		
+		if (result.isEmpty()) {
+			throw new ResourceNotFoundException("No Order Details Found");
+		}
+		else {
 		List<OrderStatusCountDto> orderStatusCount = result.stream()
 				.map(objects -> new OrderStatusCountDto((String) objects[0], (Long) objects[1]))
                 .collect(Collectors.toList());
 		
 		return orderStatusCount;
+		}
 	}
 	
 	

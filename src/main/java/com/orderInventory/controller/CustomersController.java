@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orderInventory.dto.CustomerInputDto;
+import com.orderInventory.dto.CustomerOutputDto;
 import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
 import com.orderInventory.exception.ResourceNotFoundException;
@@ -21,6 +25,8 @@ import com.orderInventory.service.CustomersService;
 import jakarta.validation.Valid;
 
 @RestController
+@Validated
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomersController {
 	
 	@Autowired
@@ -29,7 +35,7 @@ public class CustomersController {
 	
 	@GetMapping("/api/v1/customers/fetchAll")
 	
-	public ResponseEntity<List<Customers>> getAllCustomers(){
+	public ResponseEntity<List<Customers>> getAllCustomers() throws ResourceNotFoundException{
 		
 		List<Customers> allCustomers = customersService.getAllCustomers();
 		return new ResponseEntity<List<Customers>>(allCustomers,HttpStatus.OK);
@@ -38,7 +44,7 @@ public class CustomersController {
 	
 	@PostMapping("/api/v1/customers/addCustomer")
 	
-	public ResponseEntity<String> addNewCustomer(@RequestBody Customers customer) {
+	public ResponseEntity<String> addNewCustomer(@RequestBody @Valid  Customers customer) {
 		
 		customersService.addNewCustomer(customer);
 		
@@ -89,11 +95,32 @@ public class CustomersController {
 	
 	@GetMapping("/api/v1/customers/shipment/status")
 	
-	public ResponseEntity<List<ShipmentStatusCountDto>> getShipmentStatusWiseCustomerCount(){
+	public ResponseEntity<List<ShipmentStatusCountDto>> getShipmentStatusWiseCustomerCount() throws ResourceNotFoundException{
 		
 		List<ShipmentStatusCountDto> shipmentCount = customersService.getShipmentStatusWiseCustomerCount();
 		
 		return new ResponseEntity<List<ShipmentStatusCountDto>>(shipmentCount,HttpStatus.OK);
+	}
+	
+	
+	
+	@PostMapping("/customers/addCustomerDto")
+	public ResponseEntity<CustomerOutputDto> addCustomerDto(CustomerInputDto customerInputDto) {
+		
+		CustomerOutputDto addCustomerDto = customersService.addCustomerDto(customerInputDto);
+		
+		return new ResponseEntity<CustomerOutputDto>(addCustomerDto,HttpStatus.CREATED);
+		
+	}
+	
+	@PutMapping("/customers/updateDto")
+	public ResponseEntity<Customers> updateCustomerDto(CustomerInputDto customerInputDto) throws ResourceNotFoundException{
+		
+		Customers updatedCustomer= customersService.updateCustomerDto(customerInputDto);
+		
+		return new ResponseEntity<Customers>(updatedCustomer,HttpStatus.OK);
+		
+		
 	}
 	
 	

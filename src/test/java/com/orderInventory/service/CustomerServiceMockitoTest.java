@@ -14,6 +14,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.orderInventory.dto.OrderStatusCountDto;
+import com.orderInventory.dto.ShipmentStatusCountDto;
 import com.orderInventory.entity.Customers;
 import com.orderInventory.exception.ResourceNotFoundException;
 import com.orderInventory.repository.CustomersRepository;
@@ -37,25 +39,25 @@ public class CustomerServiceMockitoTest {
 	//test method to get all customers
 
 	@Test
-	public void testGetAllCustomers() {
+	public void testGetAllCustomers() throws ResourceNotFoundException {
 		
-		List<Customers> customersLst = new ArrayList<>();
-		
-		Customers Customer1 = new Customers();
-		Customers Customer2 = new Customers();
-		
-		customersLst.add(Customer1);
-		customersLst.add(Customer2);
+		List<Customers> customersList = new ArrayList<>();
 		
 		// Mocking the customersServiceImpl to return the list of customersLst
-		
-		Mockito.when(customersServiceImpl.getAllCustomers()).thenReturn(customersLst);
-		
-		List<Customers> customersList = customersServiceImpl.getAllCustomers();
-		
-		//Checking the response of expected value with actual value 
-		
-		assertEquals(2, customersList.size());
+		if (customersList.isEmpty()) {
+			
+			assertThrows(ResourceNotFoundException.class,()->customersServiceImpl.getAllCustomers());
+		}
+		else {
+			
+			Mockito.when(customersServiceImpl.getAllCustomers()).thenReturn(customersList);
+			
+			List<Customers> result = customersServiceImpl.getAllCustomers();
+			
+			//Checking the response of expected value with actual value 
+			
+			assertEquals(customersList, result);
+		}
 	}
 	
 	
@@ -186,5 +188,29 @@ public class CustomerServiceMockitoTest {
 		}		
 	}
 	
+	//test method for customer shipment status
+	
+	@Test
+	void testGetCustomersShipmentsStatus() throws ResourceNotFoundException {
+		
+		List<ShipmentStatusCountDto> shipmentStatusDto = new ArrayList<>();			
+		
+		if(shipmentStatusDto.isEmpty()) {
+						
+			assertThrows(ResourceNotFoundException.class,()->customersServiceImpl.getShipmentStatusWiseCustomerCount());
+			
+		}
+		else {
+			
+		Mockito.when(customersServiceImpl.getShipmentStatusWiseCustomerCount()).thenReturn(shipmentStatusDto);
+		
+		List<Object[]> result = customersRepository.getShipmentStatusWiseCustomerCount();
+		
+		//Checking the response of expected value with actual value 
+		
+		assertEquals(shipmentStatusDto, result);
+		
+		}		
+	}	
 }
 
