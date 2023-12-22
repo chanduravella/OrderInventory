@@ -130,22 +130,22 @@ public class CustomersServiceImpl implements CustomersService{
 	}
 
 	@Override
-	public CustomerOutputDto addCustomerDto(CustomerInputDto customerIputDto) {
+	public CustomerOutputDto addCustomerDto(CustomerInputDto customerInputDto) {
 		
 		//create customer instance
 		
 		Customers customers = new Customers();
 		
-		customers.setEmailAddress(customerIputDto.getEmailAddress());
-		customers.setFullName(customerIputDto.getFullName());
+		customers.setEmailAddress(customerInputDto.getEmail());
+		customers.setFullName(customerInputDto.getFullName());
 		
 		// create login instance
 		
 		Login login = new Login();
 		
-		login.setEmail(customerIputDto.getEmailAddress());
-		login.setPassword(customerIputDto.getPassword());
-		login.setCategory("customer");
+		login.setEmail(customerInputDto.getEmail());
+		login.setPassword(customerInputDto.getPassword());
+		login.setCategory(customerInputDto.getCategory());
 		login.setLogin(false);
 		
 		customers.setLogin(login);
@@ -161,23 +161,23 @@ public class CustomersServiceImpl implements CustomersService{
 	}
 
 	@Override
-	public Customers updateCustomerDto(CustomerInputDto customerIputDto) throws ResourceNotFoundException {
+	public Customers updateCustomerDto(CustomerInputDto customerInputDto) throws ResourceNotFoundException {
 		
-		Optional<Customers> optionalList= customersRepository.findById(customerIputDto.getCustomerId());
+		Optional<Customers> optionalList= customersRepository.findById(customerInputDto.getCustomerId());
 		
 		if (optionalList.isPresent()) {
 			
 			Customers customer = optionalList.get();
 			
-			customer.setCustomerId(customerIputDto.getCustomerId());
-			customer.setEmailAddress(customerIputDto.getEmailAddress());
-			customer.setFullName(customerIputDto.getFullName());
+			customer.setCustomerId(customerInputDto.getCustomerId());
+			customer.setEmailAddress(customerInputDto.getEmail());
+			customer.setFullName(customerInputDto.getFullName());
 			
 			Login login = new Login();
 			
-			login.setEmail(customerIputDto.getEmailAddress());
-			login.setPassword(customerIputDto.getPassword());
-			login.setCategory("customer");
+			login.setEmail(customerInputDto.getEmail());
+			login.setPassword(customerInputDto.getPassword());
+			login.setCategory(customerInputDto.getCategory());
 			
 			customer.setLogin(login);
 			
@@ -188,7 +188,7 @@ public class CustomersServiceImpl implements CustomersService{
 		}
 		else {
 			
-			throw new ResourceNotFoundException("No Customer found with Id: "+customerIputDto.getCustomerId());
+			throw new ResourceNotFoundException("No Customer found with Id: "+customerInputDto.getCustomerId());
 		}
 
 	}

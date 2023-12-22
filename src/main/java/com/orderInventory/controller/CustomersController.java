@@ -105,7 +105,7 @@ public class CustomersController {
 	
 	
 	@PostMapping("/customers/addCustomerDto")
-	public ResponseEntity<CustomerOutputDto> addCustomerDto(CustomerInputDto customerInputDto) {
+	public ResponseEntity<CustomerOutputDto> addCustomerDto(@RequestBody CustomerInputDto customerInputDto) {
 		
 		CustomerOutputDto addCustomerDto = customersService.addCustomerDto(customerInputDto);
 		
@@ -114,7 +114,7 @@ public class CustomersController {
 	}
 	
 	@PutMapping("/customers/updateDto")
-	public ResponseEntity<Customers> updateCustomerDto(CustomerInputDto customerInputDto) throws ResourceNotFoundException{
+	public ResponseEntity<Customers> updateCustomerDto(@RequestBody CustomerInputDto customerInputDto) throws ResourceNotFoundException{
 		
 		Customers updatedCustomer= customersService.updateCustomerDto(customerInputDto);
 		

@@ -8,5 +8,6 @@ import com.orderInventory.exception.ResourceNotFoundException;
 public interface LoginService {
 	
 	LoginOutputDto customerLogin(LoginInputDto loginInputDto) throws InvalidCredentialsException, ResourceNotFoundException;
+	LoginOutputDto customerLogout(String email) throws ResourceNotFoundException;
 
 }

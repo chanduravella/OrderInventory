@@ -1,5 +1,6 @@
 package com.orderInventory.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,11 +18,11 @@ public class Shipments {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int shipmentId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "store_id")
 	private Stores storeId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customers customerId;
 	

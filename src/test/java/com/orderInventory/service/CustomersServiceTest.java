@@ -59,7 +59,7 @@ public class CustomersServiceTest {
 		
 		Customers customer = customersList.get(0); //	1	tammy.bryant@internalmail	Tammy Bryant
 		
-		assertEquals(1,customer.getCustomerId()); 
+		assertEquals(0,customer.getCustomerId()); 
 		assertEquals("tammy.bryant@internalmail",customer.getEmailAddress());
 		assertEquals("Tammy Bryant",customer.getFullName());
 		

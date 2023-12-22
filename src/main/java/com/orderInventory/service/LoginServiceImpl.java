@@ -51,6 +51,37 @@ public class LoginServiceImpl implements LoginService{
 			throw new ResourceNotFoundException("No Customer found with email: "+loginInputDto.getEmail());
 		}		
 		
+	}
+	
+	
+
+	@Override
+	public LoginOutputDto customerLogout(String email) throws ResourceNotFoundException {
+		
+		Optional<Login> loginList= loginRepository.findById(email);
+		
+		if (loginList.isPresent()) {
+			
+			Login login = loginList.get();
+			
+			login.setLogin(false);
+			
+			loginRepository.save(login);
+			
+			LoginOutputDto loginOutputDto = new LoginOutputDto();
+			
+			loginOutputDto.setEmail(login.getEmail());
+			loginOutputDto.setCategory(login.getCategory());
+			loginOutputDto.setLogin(login.isLogin());
+			
+			return loginOutputDto;			
+			
+		}
+		else {
+			
+			throw new ResourceNotFoundException("No user found with email: "+email);
+			
+		}
 	}	
 
 }

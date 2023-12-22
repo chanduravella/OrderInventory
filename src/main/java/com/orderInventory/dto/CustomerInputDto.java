@@ -7,7 +7,7 @@ public class CustomerInputDto {
 	
 	private int customerId;
 	private String fullName;
-	private String emailAddress;
+	private String email;
 	private String password;
 	private String category;
 
